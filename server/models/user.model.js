@@ -28,3 +28,20 @@ const UserSchema = new mongoose.Schema({
 UserSchema.virtual('confirmPassword')
     .get(() => this._confirmPassword) 
     .set(value => this._confirmPassword = value)   
+
+UserSchema.pre('validate', function (next) {
+    if(this.password !== this._confirmPassword){
+        this.invalidate('confirmPassword', 'Passwords do not match')
+    }
+    next()
+})
+
+UserSchema.pre('save', function (next){
+    bcrypt.hash(this.password, 10)
+        .then(hash => {
+            this.password = hash
+            next()
+        })
+})
+
+module.exports = mongoose.model('User', UserSchema)
