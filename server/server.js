@@ -4,7 +4,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json(), express.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors({credentials:true, origin:'http://localhost:5173'}));
 require('./config/mongoose.config')
 
 const userRoutes = require('./routes/user.routes')(app)
