@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import useNavigate from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 
 
 const Register = (props) => {
-    // const navigate = useNavigate() //destructured
+    const navigate = useNavigate() //destructured
     const [ firstName, setFirstName ] = useState('')
     const [ lastName, setLastName] = useState('')
     const [ email, setEmail ] = useState('')
@@ -18,6 +18,7 @@ const Register = (props) => {
         axios.post('http://localhost:8000/api/registerUser', newUser, {withCredentials:true})
             .then((res) => {
                 console.log(res);
+                navigate('/home')
             })
             .catch((err) => {
                 console.log(err);
@@ -50,6 +51,7 @@ const Register = (props) => {
                 </div>
                 <button>Submit</button>
             </form>
+            <Link to={'/login'}>Already have an account? Sign in here!</Link>
         </div>
     );
 }

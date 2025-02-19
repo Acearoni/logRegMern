@@ -35,14 +35,15 @@ module.exports = {
                     const userToken = jwt.sign({ id: potentialUser._id, email: potentialUser.email }, secretKey, { expiresIn: '2h' })
                     res.status(201).cookie('userToken', userToken, { httpOnly: true }).json(potentialUser)
                 } else {
-                    res.status(400).json({message: 'Invalid email / password'})
+                    res.status(500).json({message: 'Invalid email / password'})
                 }
             } else {
-                res.status(400).json({message: 'invalid email / password'})
+                res.status(500).json({message: 'invalid email / password'})
             }
         }
         catch (err) {
             res.status(500).json({ error: err })
+            console.log(err)
         }
     },
     logoutUser: (req, res) => {
